@@ -53,7 +53,7 @@
                     }
                     usersList.appendChild(li);
 
-                    if(user.username ===username){
+                    if(user.username === username){
                         canDraw = user.isActive;
                     }
                 });
@@ -65,7 +65,7 @@
             function mouseDragged(){
                 if (!canDraw) return;
                 stroke(colorInput.value);
-                stokeWeight(weightInput.value);
+                strokeWeight(weightInput.value);
                 line(mouseX, mouseY, pmouseX, pmouseY);
 
                 socket.emit('line', {

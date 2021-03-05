@@ -20,8 +20,7 @@ const io = socketIO(server);
 let users = [];
 let currentPlayer = null;
 let timeout = null;
-let words = ['Pomme', 'Chien', 'Maison', 'Lit']
-
+let words = ['Pikatchu', 'Carapuce']
 io.on('connection', (socket)=> {
     socket.on('username', (username)=> {
         console.log(`${username} joined the game.`);
@@ -41,9 +40,8 @@ io.on('connection', (socket)=> {
             return user !== socket
         });
         sendUsers();
-
-        if(users.length === 0){
-            timeout = clearTimeout(timeout);
+        if(users.length == 0){
+            timeout=clearTimeout(timeout);
         }
     });
 
@@ -67,7 +65,6 @@ function switchPlayer (){
 
     const indexCurrentPlayer = users.indexOf(currentPlayer);
     currentPlayer = users[(indexCurrentPlayer + 1) % users.length];
-
     sendUsers();
 
     const nextWord = words[Math.floor(Math.random() * words.length)];
