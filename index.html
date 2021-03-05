@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <title>Prénom Nom - Formation - Année - École - Option</title>
+        <title>Pictionary</title>
         <meta charset= "utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
         <meta name="viewport" content="initial-scale=1">
@@ -10,20 +10,62 @@
             canvas{
                 border: 1px solid;
             }
+
+            li.is-active{
+                font-weight: bold;
+            }
         </style>
     </head>
     <body>
-       <h1>Hello World</h1>
+       <h1>Pictionary</h1>
+
+       <ul class="users"></ul>
 
        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>
-
+        <script src="/socket.io/socket.io.js"></script>
        <script>
-           function setup (){
+            const socket = io();
+            const username = prompt('What is your name ?')
+
+            socket.emit('username', username);
+
+            let canDraw = false;
+
+            const usersList = document.querySelector('.users');
+            socket.on('users', (data)=> {
+                usersList.innerHTML = '';
+                data.forEach((user)=> {
+                    const li = document.createElement('li');
+                    li.innerHTML = user.username;
+                    if(user.isActive){
+                        li.classList.add('is-active');
+                    }
+                    usersList.appendChild(li);
+
+                    if(user.username ===username){
+                        canDraw = user.isActive;
+                    }
+                });
+            });
+
+            function setup (){
                createCanvas(500, 500);
-           }
-           function mouseDragged(){
+            }
+            function mouseDragged(){
+                if (!canDraw) return;
                 line(mouseX, mouseY, pmouseX, pmouseY);
-           }
+
+                socket.emit('line', {
+                    mouseX,
+                    mouseY,
+                    pmouseX,
+                    pmouseY
+                });
+            }
+
+           socket.on('line', (data)=> {
+                line(data.mouseX, data.mouseY, data.pmouseX, data.pmouseY);
+           });
        </script>
     </body>
 </html>
