@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>Prénom Nom - Formation - Année - École - Option</title>
+        <meta charset= "utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+        <meta name="viewport" content="initial-scale=1">
+
+        <style>
+            canvas{
+                border: 1px solid;
+            }
+        </style>
+    </head>
+    <body>
+       <h1>Hello World</h1>
+
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>
+
+       <script>
+           function setup (){
+               createCanvas(500, 500);
+           }
+           function mouseDragged(){
+                line(mouseX, mouseY, pmouseX, pmouseY);
+           }
+       </script>
+    </body>
+</html>
